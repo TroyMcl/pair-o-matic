@@ -1,0 +1,20 @@
+{
+  "name": "pair-o-matic",
+  "version": "1.0.0",
+  "description": "Robot for making pairs. It doesn't sound useful until you need it.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shawn-chambers/pair-o-matic.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shawn-chambers/pair-o-matic/issues"
+  },
+  "homepage": "https://github.com/shawn-chambers/pair-o-matic#readme"
+}
