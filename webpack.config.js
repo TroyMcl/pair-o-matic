@@ -1,6 +1,11 @@
+const path = require('path');
+
 module.exports = {
   entry: './client/app.js',
-  output: './public/bundle.js',
+  output: {
+    path: path.resolve(__dirname, 'public'),
+    filename: 'bundle.js'
+  },
   module: {
     rules: [
       {
@@ -14,5 +19,6 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  mode: 'development'
 }

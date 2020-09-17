@@ -4,7 +4,8 @@
   "description": "Robot for making pairs. It doesn't sound useful until you need it.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:dev": "webpack --watch"
   },
   "repository": {
     "type": "git",
