@@ -1,5 +1,8 @@
 const express = require('express');
-const { addStudent } = require('./controllers.js');
+const { 
+  addStudent, 
+  addCohort 
+} = require('./controllers.js');
 
 const router = express.Router();
 
@@ -12,7 +15,7 @@ router
 router
   .route('/cohort')
   // .get(controller)
-  // .patch(controller)
+  .post(addCohort)
   // .delete(controller);
   
 
