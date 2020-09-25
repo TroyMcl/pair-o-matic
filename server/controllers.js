@@ -25,7 +25,6 @@ module.exports.addStudent = async (req, res) => {
 
 module.exports.retreiveStudent = async (req, res) => {
   const student = req.query.first + ' ' + req.query.last;
-  console.log(student)
   try {
     const studentData = await getOneStudent(student);
     if (studentData.length === 0) {
@@ -45,11 +44,10 @@ module.exports.retreiveStudent = async (req, res) => {
 };
 
 module.exports.removeStudent = async (req, res) => {
-  const student = req.params.first + ' ' + req.params.last;
+  const student = req.query.first + ' ' + req.query.last;
   try {
     const studentData = await deleteStudent(student);
-    console.log(studentData)
-    if(studentData) {
+    if(studentData.deletedCount === 0) {
       throw('Student not in database')
     } else {
       res.status(200).send({
