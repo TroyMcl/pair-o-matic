@@ -1,10 +1,10 @@
-const { 
-  insertStudent, 
-  insertStudents, 
-  getOneStudent, 
-  getCohortOfStudents, 
-  deleteStudent, 
-  deleteCohort 
+const {
+  insertStudent,
+  insertStudents,
+  getOneStudent,
+  getCohortOfStudents,
+  deleteStudent,
+  deleteCohort
 } = require('../db/models');
 
 module.exports.addStudent = async (req, res) => {

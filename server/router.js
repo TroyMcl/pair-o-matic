@@ -1,23 +1,28 @@
 const express = require('express');
-const { 
-  addStudent, 
-  addCohort 
+const {
+  addStudent,
+  retreiveCohort,
+  removeStudent,
+  updateCohort,
+  removeCohort,
+  retreiveStudent
+
 } = require('./controllers.js');
 
 const router = express.Router();
 
 router
-  .route('/student')  
-  // .get(controller)
+  .route('/student')
+  .get(retreiveStudent)
   .post(addStudent)
-  // .delete(controller)
+  .delete(removeStudent)
 
 router
-  .route('/cohort')
-  // .get(controller)
-  .post(addCohort)
-  // .delete(controller);
-  
+  .route('/cohort/:cohort')
+  .get(retreiveCohort)
+  .patch(updateCohort)
+  .delete(removeCohort);
+
 
 
 module.exports = router;
