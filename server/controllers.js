@@ -61,9 +61,10 @@ module.exports.removeStudent = async (req, res) => {
       message: `Error saving to database: ${error}`
     })
   }
-};
+}
 
-module.exports.addCohort = async (req, res) => {
+module.exports.retreiveCohort = async (req, res) => {
+  const cohort = +req.params.cohort;
   try {
     const cohort = req.body;
     const results = await insertStudents(cohort);
@@ -71,7 +72,23 @@ module.exports.addCohort = async (req, res) => {
       status: 'success',
       message: results
     })
-  } catch (error) {
+  }
+}
+
+module.exports.updateCohort = async (req, res) => {
+  const cohort = req.body;
+
+  try {
+    const cohortData = await insertStudents(cohort);
+    if(cohortData.length === 0) {
+      throw('Cohort #' + cohort + ' could not be updated')
+    } else {
+      res.status(200).send({
+        status: 'success',
+        message: cohortData
+      });
+    }
+  } catch(error) {
     res.status(500).send({
       status: 'failure',
       message: `Error saving cohort to database: ${error}`
@@ -82,13 +99,17 @@ module.exports.addCohort = async (req, res) => {
 
 module.exports.retrieveOneCohort = async (req, res) => {
   try {
-    const cohortNum = req.body;
-    const results = await getCohortOfStudents(cohortNum);
-    res.status(200).send({
-      status: 'success',
-      message: results
-    })
-  } catch (error) {
+    const cohortData = await deleteCohort(cohort);
+    console.log(cohortData)
+    if(cohortData.deletedCount === 0) {
+      throw('Cohort #' + cohort + ' could not be updated')
+    } else {
+      res.status(200).send({
+        status: 'success',
+        message: cohortData
+      });
+    }
+  } catch(error) {
     res.status(500).send({
       status: 'failure',
       message: `Error saving cohort to database: ${error}`
