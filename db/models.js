@@ -22,7 +22,7 @@ module.exports.insertStudent = async (studentObj) => {
 
 module.exports.insertStudents = async (studentsArray) => {
   try {
-    const data = studentsArray.map((student) => insertStudent(student));
+    const data = studentsArray.map((student) => module.exports.insertStudent(student));
     const studentSaves = await Promise.all(data);
     return studentSaves
   } catch(err) {

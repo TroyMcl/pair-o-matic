@@ -65,7 +65,6 @@ module.exports.removeStudent = async (req, res) => {
 
 module.exports.retreiveCohort = async (req, res) => {
   const cohort = +req.params.cohort;
-
   try {
     const cohortData = await getCohortOfStudents(cohort);
     if(cohortData.length === 0) {
@@ -85,7 +84,7 @@ module.exports.retreiveCohort = async (req, res) => {
 }
 
 module.exports.updateCohort = async (req, res) => {
-  const cohort = +req.params.cohort;
+  const cohort = req.body;
 
   try {
     const cohortData = await insertStudents(cohort);
@@ -111,7 +110,7 @@ module.exports.removeCohort = async (req, res) => {
   try {
     const cohortData = await deleteCohort(cohort);
     console.log(cohortData)
-    if(cohortData.length === 0) {
+    if(cohortData.deletedCount === 0) {
       throw('Cohort #' + cohort + ' could not be updated')
     } else {
       res.status(200).send({
