@@ -7,6 +7,8 @@ const {
   deleteCohort
 } = require('../db/models');
 
+const makeAllPairs = require('./helpers.js');
+
 module.exports.addStudent = async (req, res) => {
   const studentObj = req.body;
   try {
@@ -61,7 +63,7 @@ module.exports.removeStudent = async (req, res) => {
       message: error
     })
   }
-}
+};
 
 module.exports.retreiveCohort = async (req, res) => {
   const cohort = +req.params.cohort;
@@ -81,7 +83,7 @@ module.exports.retreiveCohort = async (req, res) => {
       message: error
     })
   }
-}
+};
 
 module.exports.updateCohort = async (req, res) => {
   const cohort = req.body;
@@ -102,7 +104,7 @@ module.exports.updateCohort = async (req, res) => {
       message: error
     })
   }
-}
+};
 
 module.exports.removeCohort = async (req, res) => {
   const cohort = +req.params.cohort;
@@ -124,4 +126,24 @@ module.exports.removeCohort = async (req, res) => {
       message: error
     })
   }
-}
+};
+
+module.exports.makePairs = async (req, res) => {
+  const premadePairs = req.body;
+  const cohort = +req.params.cohort;
+  //get cohort of students from db
+
+  try {
+    const cohortData = await getCohortOfStudents(cohort);
+    const madePairs = makeAllPairs(cohortData, premadePairs);
+    res.status(200).send({
+      status: 'success',
+      message: madePairs
+    });
+  } catch(error) {
+    res.status(500).send({
+      status: 'failure',
+      message: error
+    })
+  }
+};
