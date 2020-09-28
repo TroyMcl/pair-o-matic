@@ -1,6 +1,6 @@
 /*
 
-[ 
+[
   {
   cohort: 24,
   name: 'Mickey Mouse',
@@ -25,7 +25,7 @@
 
 
 
-I: 2 arrays of objects [{all pairs}], [[student1, student2]] 
+I: 2 arrays of objects [{all pairs}], [[student1, student2]]
 O: array of student objs
 C: < O(n^2) ..?
 E: all pairs have partnered previously, even distribution of pairings, odd number of students
@@ -34,9 +34,9 @@ E: all pairs have partnered previously, even distribution of pairings, odd numbe
 */
 
 // filter out preselected pairs:
-// still needs to account for human error: one student in 2 pairs: 
+// still needs to account for human error: one student in 2 pairs:
 const filterUserInputPairs = (allStudents, prefPairs) => {
-  
+
   const madePairs = [];
 
   while (prefPairs.length > 0) {
@@ -67,12 +67,12 @@ const filterUserInputPairs = (allStudents, prefPairs) => {
     const removeFirst = Math.max(idx1, idx2);
     const removeSecond = Math.min(idx1, idx2);
     allStudents.splice(removeFirst, 1);
-    allStudents.splice(removeSecond, 1)
-    
+    allStudents.splice(removeSecond, 1);
+
   }
-  return [madePairs, allStudents]
-  
-}
+  return [madePairs, allStudents];
+
+};
 
 
 // main make pairs function
@@ -88,14 +88,15 @@ const makeAllPairs = (studentsArray, prefPairs) => {
 
   const makeOnePair = (students, potentialPairs) => {
     // base case, no more potential pairs
+
     if (students.length === 1 || students.length === 0) {
-      let potentialPairsCopy = potentialPair.slice();
-      pairsArray.push(potentialPairsCopy);
+      let potentialPairsCopy = JSON.stringify(potentialPairs);
+      pairsArray.push(JSON.parse(potentialPairsCopy));
       return;
     }
     // randomly select a student with out a pair
     let currentStudent = Math.floor(Math.random() * students.length);
-    
+
     for (let i = 0; i < students.length; i++) {
       // when a potential pair is found
       if (!students[currentStudent].previousPairs.includes(students[i].name) && students[currentStudent].name !== students[i].name) {
@@ -123,24 +124,26 @@ const makeAllPairs = (studentsArray, prefPairs) => {
             loop = false;
             potentialPairs.push([students[currentStudent], students[i]]);
             const studentsCopy = students.slice();
-            
+
             // remove from further pairing
             const removeFirst = Math.max(currentStudent, i);
             const removeSecond = Math.min(currentStudent, i);
             studentsCopy.splice(removeFirst, 1);
             studentsCopy.splice(removeSecond, 1);
-            
+
             // continue finding pairs
             makeOnePair(studentsCopy, potentialPairs);
             potentialPairs.pop();
-          } 
+          }
         }
       }
     }
-  }
+  };
 
   makeOnePair(remainingStudents, []);
 
   // madePairs[0] is always user input pairs
-  return madePairs;
-}
+  return pairsArray;
+};
+
+module.exports = makeAllPairs;
