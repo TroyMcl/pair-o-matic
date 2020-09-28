@@ -8,8 +8,8 @@ const {
 } = require('../db/models');
 
 module.exports.addStudent = async (req, res) => {
+  const studentObj = req.body;
   try {
-    const studentObj = req.body;
     const results = await insertStudent(studentObj);
     res.status(200).send({
       status: 'success',
@@ -38,7 +38,7 @@ module.exports.retreiveStudent = async (req, res) => {
   } catch(error) {
     res.status(500).send({
       status: 'failure',
-      message: `Error saving to database: ${error}`
+      message: error
     })
   }
 };
@@ -58,7 +58,7 @@ module.exports.removeStudent = async (req, res) => {
   } catch (error) {
     res.status(500).send({
       status: 'failure',
-      message: `Error saving to database: ${error}`
+      message: error
     })
   }
 }
@@ -66,11 +66,19 @@ module.exports.removeStudent = async (req, res) => {
 module.exports.retreiveCohort = async (req, res) => {
   const cohort = +req.params.cohort;
   try {
-    const cohort = req.body;
-    const results = await insertStudents(cohort);
-    res.status(200).send({
-      status: 'success',
-      message: results
+    const cohortData = await getCohortOfStudents(cohort);
+    if(cohortData.length === 0) {
+      throw('Cohort #' + cohort + ' is not in the database')
+    } else {
+      res.status(200).send({
+        status: 'success',
+        message: cohortData
+      });
+    }
+  } catch(error) {
+    res.status(500).send({
+      status: 'failure',
+      message: error
     })
   }
 }
@@ -91,13 +99,14 @@ module.exports.updateCohort = async (req, res) => {
   } catch(error) {
     res.status(500).send({
       status: 'failure',
-      message: `Error saving cohort to database: ${error}`
+      message: error
     })
   }
-};
+}
 
+module.exports.removeCohort = async (req, res) => {
+  const cohort = +req.params.cohort;
 
-module.exports.retrieveOneCohort = async (req, res) => {
   try {
     const cohortData = await deleteCohort(cohort);
     console.log(cohortData)
@@ -112,7 +121,7 @@ module.exports.retrieveOneCohort = async (req, res) => {
   } catch(error) {
     res.status(500).send({
       status: 'failure',
-      message: `Error saving cohort to database: ${error}`
+      message: error
     })
   }
-};
+}
