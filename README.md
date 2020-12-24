@@ -27,8 +27,10 @@ We kept the schema simple, a single MonogDB library where each student is a sing
 There are api's for routine admin tasks, as well as the route that will make the pairs, and save user selected pairs.
 ![API's table](./images/apitable.jpeg)
 
-#### Technologies
+### Technologies
 
-* React/React Hooks
+* React Hooks and Context
+* React Router
+* Material-UI
 * Node/Express
 * Mongoose/MongoDB
