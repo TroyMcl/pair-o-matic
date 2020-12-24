@@ -9,7 +9,7 @@ One of our responsibilities involved making pairs for students assigning them a 
 * A user selects a class to make pairs for. \(1\) A GET request is sent to the server. The server retrieves the class roster from the database and sends it to the client.
 * With a class roster, a user can create specific pairs that they want for the week. A user can make as many or as few pairs here as they want.
 * When happy with their selected pairs a POST \(2\) is sent to the client of the user selected pairs.
-* The server will get the full class roster from the database \(3\). Students paired by the user are filter out of the class roster, the server will make a variety of pairing options from the remaining students and send it back to the client.
+* The server will get the full class roster from the database \(3\). Students paired by the user are filtered out of the class roster, the server will make a variety of pairing options from the remaining students and send it back to the client.
 * The user can go through the pairing options and choose the one they like, they can also make manual adjustments to the pairs
 * When the user is happy with the pairs, the selected pairing roster is sent in a POST \(4\) to the server
 * \(5\) Each student document is updated with their current pair for the week.
