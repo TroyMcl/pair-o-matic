@@ -24,9 +24,13 @@ const App = () => {
             <Switch>
               <>
                 <Grid container>
-                  <Route path="/">
-                    <MakePairs />
-                  </Route>
+                  <Grid item xs={1} />
+                  <Grid item xs={10}>
+                    <Route path="/">
+                      <MakePairs />
+                    </Route>
+                  </Grid>
+                  <Grid item xs={1} />
                 </Grid>
               </>
             </Switch>
