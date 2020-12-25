@@ -70,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
   },
 })
 )
+
 const Header = (props) => {
   const { cohort, fetchRoster } = useContext(CohortContext);
   const classes = useStyles();
