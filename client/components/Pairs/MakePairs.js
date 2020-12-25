@@ -9,18 +9,23 @@ import {
   Button
 } from '@material-ui/core'
 
-const Roster = ({ student }) => {
-  const { name, previousPairs } = student;
-  const {customPairDisplay, setCustompairDisplay } = useState();
+const Roster = ({student}) => {
+  const { customPairDisplay, setCustompairDisplay } = useState();
   return (
     <>
-      <Typography variant="body2" >{name} </Typography>
+      <Typography variant="body2" >{student} </Typography>
     </>
   )
 }
 
 const MakePairs = (props) => {
-  const { cohort } = useContext(CohortContext);
+  const { cohort, roster } = useContext(CohortContext);
+  const [selectedPairs, setSelectedPairs] = useState([]);
+
+  const addPairDisplayComponent = () => {
+    console.log('stuff')
+    setSelectedPairs([...selectedPairs, []])
+  }
 
   if (cohort.length === 0) {
     return <p>Select a Cohort</p>
@@ -30,7 +35,7 @@ const MakePairs = (props) => {
     <Box>
       <p>Roster</p>
       <Grid container>
-        {cohort.map(student => {
+        {roster.map(student => {
           return (
             <Grid item xs={6} sm={3}>
               <Roster student={student} />
@@ -42,12 +47,14 @@ const MakePairs = (props) => {
         <Button
           variant="contained"
           color="secondary"
-          onClick={() => console.log('stuff')}
+          onClick={() => addPairDisplayComponent()}
         >
           Create Custom Pair
         </Button>
       </Grid>
-      <PairDisplay />
+      {selectedPairs.map(pair => {
+        return <PairDisplay pair={pair} />
+      })}
     </Box>
   )
 }

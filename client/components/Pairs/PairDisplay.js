@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { CohortContext } from '../../context/cohortContext';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {
   Checkbox,
@@ -12,9 +13,9 @@ import {
 
 const useStyles = makeStyles(theme => ({
   container: {
-    height: 60,
+    height: 45,
     background: '#dcc7aa',
-    marginTop: 15,
+    // marginTop: 5,
     paddingLeft: 10,
     display: 'flex',
     alignItems: 'center'
@@ -31,30 +32,30 @@ const useStyles = makeStyles(theme => ({
 const PairDisplay = (props) => {
   const [checked, setChecked] = useState(true);
   const classes = useStyles();
-  const potato = ['banana', 'apple', 'oragne', 'peach'];
+  const { cohort, roster } = useContext(CohortContext);
 
   return (
     <div className={classes.container} >
       <FormControl className={classes.formSelector}>
-        <InputLabel htmlFor="student1">Student</InputLabel>
+        {/* <InputLabel htmlFor="student1">Student</InputLabel> */}
         <Select
           labelId="student1"
           id="student1"
           onChange={(e) => console.log(e.target.value)}
         >
-          {potato.map(item => {
+          {roster.map(item => {
             return (<MenuItem value={item} key={item}>{item}</MenuItem>)
           })}
         </Select>
       </FormControl>
       <FormControl className={classes.formSelector}>
-        <InputLabel htmlFor="student2">Student</InputLabel>
+        {/* <InputLabel htmlFor="student2">Student</InputLabel> */}
         <Select
           labelId="student2"
           id="student2"
           onChange={(e) => console.log(e.target.value)}
         >
-          {potato.map(item => {
+          {roster.map(item => {
             return (<MenuItem value={item} key={item}>{item}</MenuItem>)
           })}
         </Select>
