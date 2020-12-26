@@ -54,8 +54,8 @@ const filterUserInputPairs = (allStudents, prefPairs) => {
     }
 
     // get index of each pre selected pair from allStudents
-    const idx1 = allStudents.findIndex(student => student.name === student1);
-    const idx2 = allStudents.findIndex(student => student.name === student2);
+    const idx1 = allStudents.findIndex(student => student.name === student1.name);
+    const idx2 = allStudents.findIndex(student => student.name === student2.name);
 
     // create pair array, push to madePairs
     madePairs.push([allStudents[idx1], allStudents[idx2]]);
@@ -75,75 +75,74 @@ const filterUserInputPairs = (allStudents, prefPairs) => {
 };
 
 
-// main make pairs function
-
-// run through preselected pairs => 2 arrays some made pairs, remaining students
-
-// recursive fn => avoid issue of not having unique pairs, down side very alphabetical(add some logic to avoid this?)
 
 const makeAllPairs = (studentsArray, prefPairs) => {
   const [madePairs, remainingStudents] = filterUserInputPairs(studentsArray, prefPairs);
+  let pairsArray = []
 
-  let pairsArray = [madePairs];
+  while (pairsArray.length < 25) {
+    let autoPairs = generatePairs([...remainingStudents]);
+    pairsArray.push([...madePairs, ...autoPairs])
+  }
+  return pairsArray;
+}
 
-  const makeOnePair = (students, potentialPairs) => {
-    // base case, no more potential pairs
-
-    if (students.length === 1 || students.length === 0) {
-      let potentialPairsCopy = JSON.stringify(potentialPairs);
-      pairsArray.push(JSON.parse(potentialPairsCopy));
-      return;
-    }
-    // randomly select a student with out a pair
+const generatePairs = (students) => {
+  const pairs = [];
+  while (students.length > 1) {
     let currentStudent = Math.floor(Math.random() * students.length);
+    let i = Math.floor(Math.random() * students.length);
 
-    for (let i = 0; i < students.length; i++) {
-      // when a potential pair is found
-      if (!students[currentStudent].previousPairs.includes(students[i].name) && students[currentStudent].name !== students[i].name) {
-        // temp save pair
-        potentialPairs.push([students[currentStudent], students[i]]);
-        const studentsCopy = students.slice();
+    let start = i = 0 ? students.length -1: i- 1;
+    let matched = false;
 
-        // remove from further pairing
-        const removeFirst = Math.max(currentStudent, i);
-        const removeSecond = Math.min(currentStudent, i);
-        studentsCopy.splice(removeFirst, 1);
-        studentsCopy.splice(removeSecond, 1);
-
-        // continue finding pairs
-        makeOnePair(studentsCopy, potentialPairs);
-        potentialPairs.pop();
+    while (i !== start) {
+      if (!checkPreviousMatch(currentStudent, i, students)) {
+        pairs.push([students[currentStudent], students[i]]);
+        removePair(currentStudent, i, students)
+        matched = true;
+        break;
       }
+      i = i >= students.length ? 0 : i + 1
+    }
 
-      if (i === students.length - 1) {
-        let loop = true;
-        while (loop) {
-          let potentialStudent = Math.floor(Math.random() * students.length);
+    if (!matched) {
+      let loop = true;
+      while (loop) {
+        let i = Math.floor(Math.random() * students.length);
 
-          if (potentialStudent !== currentStudent) {
-            loop = false;
-            potentialPairs.push([students[currentStudent], students[i]]);
-            const studentsCopy = students.slice();
+        if (i !== currentStudent) {
+          loop = false;
+          pairs.push([students[currentStudent], students[i]]);
 
-            // remove from further pairing
-            const removeFirst = Math.max(currentStudent, i);
-            const removeSecond = Math.min(currentStudent, i);
-            studentsCopy.splice(removeFirst, 1);
-            studentsCopy.splice(removeSecond, 1);
-
-            // continue finding pairs
-            makeOnePair(studentsCopy, potentialPairs);
-            potentialPairs.pop();
-          }
+          // remove from further pairing
+          removePair(currentStudent, i, students)
         }
       }
     }
-  };
+  }
+  if(students.length === 1) {
+    pairs.push([students[0], undefined])
+  }
+  return pairs;
+}
 
-  makeOnePair(remainingStudents, []);
+const checkPreviousMatch = (currentStudent, i, students) => {
+  if (
+    !students[currentStudent].previousPairs.includes(students[i].name) &&
+    students[currentStudent].name !== students[i].name
+  ) {
+    return false;
+  }
+  return true;
+}
 
-  // madePairs[0] is always user input pairs
-  return pairsArray;
-};
+const removePair = (currentStudent, i, students) => {
+  const removeFirst = Math.max(currentStudent, i);
+  const removeSecond = Math.min(currentStudent, i);
+  students.splice(removeFirst, 1);
+  students.splice(removeSecond, 1);
+  return
+}
 
 module.exports = makeAllPairs;
