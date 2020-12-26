@@ -129,13 +129,13 @@ module.exports.removeCohort = async (req, res) => {
 };
 
 module.exports.makePairs = async (req, res) => {
-  const premadePairs = req.body;
+  const premadePairs = req.body.data;
   const cohort = +req.params.cohort;
   //get cohort of students from db
-
   try {
     const cohortData = await getCohortOfStudents(cohort);
     const madePairs = makeAllPairs(cohortData, premadePairs);
+    console.log('too slow?')
     res.status(200).send({
       status: 'success',
       message: madePairs
