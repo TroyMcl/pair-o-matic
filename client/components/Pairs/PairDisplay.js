@@ -31,27 +31,36 @@ const useStyles = makeStyles(theme => ({
 
 
 
-const PairDisplay = ({index, addPairToSelectedPairs, removePair}) => {
+const PairDisplay = ({ index, addPairToSelectedPairs, removePair, pair }) => {
   const classes = useStyles();
   const { cohort, roster } = useContext(CohortContext);
 
   const [checked, setChecked] = useState(false);
-  const [studentOne, setStudentOne] = useState('');
-  const [studentTwo, setStudentTwo] = useState('');
+  const [studentOne, setStudentOne] = useState(pair[0]? pair[0].name :'');
+  const [studentTwo, setStudentTwo] = useState(pair[1]? pair[1].name :'');
 
-  const selectStudent =(setPosition, name) => {
+  const selectStudent = (setPosition, name) => {
     setPosition(name);
   }
 
   useEffect(() => {
     addPairToSelectedPairs(studentOne, studentTwo, index)
-  },[studentOne, studentTwo])
+  }, [studentOne, studentTwo])
+
+  useEffect(() => {
+    if(pair[0]) {
+      selectStudent(setStudentOne, pair[0].name)
+    }
+    if (pair[1]) {
+      selectStudent(setStudentTwo, pair[1].name)
+    }
+  },[pair])
 
   const confirmPair = () => {
     setChecked(!checked);
   }
 
-  const deletePair= (index) => {
+  const deletePair = (index) => {
     removePair(index)
   }
 
@@ -84,15 +93,10 @@ const PairDisplay = ({index, addPairToSelectedPairs, removePair}) => {
       <FormControlLabel
         className={classes.checkboxLabel}
         value={checked}
-        control={<Checkbox checked={checked} color="secondary" /> }
+        control={<Checkbox checked={checked} color="secondary" />}
         label="Confirm"
         labelPlacement="start"
         onClick={() => confirmPair()}
-        // <Checkbox
-        //   checked={checked}
-        //   onChange={() => console.log('checked')}
-        //   inputProps={{ 'aria-label': 'secondary checkbox' }}
-        // />
       />
       <IconButton
         className={classes.deleteButton}
