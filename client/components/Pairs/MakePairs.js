@@ -18,6 +18,15 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     marginTop: 15,
     marginBottom: 15,
+  },
+  scrollPairsContainer: {
+    marginTop: 15,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start'
+  },
+  scrollButtons: {
+    marginLeft: 15,
   }
 }))
 
@@ -103,11 +112,11 @@ const MakePairs = (props) => {
       })
   }
 
-  const viewDifferentConfiguration= (increment) => {
+  const viewDifferentConfiguration = (increment) => {
     let nextView = pairsListIndex + increment;
-    if(nextView < 0) {
-      nextView = pairsList.length -1;
-    } else if(nextView === pairsList.length) {
+    if (nextView < 0) {
+      nextView = pairsList.length - 1;
+    } else if (nextView === pairsList.length) {
       nextView = 0;
     }
     setPairsListIndex(nextView);
@@ -156,22 +165,35 @@ const MakePairs = (props) => {
           addPairToSelectedPairs={addPairToSelectedPairs}
         />)
       })}
-      {pairsList.length === 0 ? '':
-        <Box>
-          <Typography>Viewing Configuration {pairsListIndex + 1} of {pairsList.length}</Typography>
-          <Button
-            variant="contained"
-            onClick={() => viewDifferentConfiguration(-1)}
-            color="secondary"
+      {pairsList.length === 0 ? '' :
+        <Box className={classes.scrollPairsContainer}>
+          <Box
+            style={{display: 'flex', marginBottom: '30px'}}
           >
-            Previous
+            <Typography >Viewing Configuration {pairsListIndex + 1} of {pairsList.length}</Typography>
+            <Button
+              className={classes.scrollButtons}
+              variant="contained"
+              onClick={() => viewDifferentConfiguration(-1)}
+              color="secondary"
+            >
+              Previous
           </Button>
+            <Button
+              className={classes.scrollButtons}
+              variant="contained"
+              onClick={() => viewDifferentConfiguration(1)}
+              color="secondary"
+            >
+              Next
+          </Button>
+          </Box>
           <Button
             variant="contained"
-            onClick={() => viewDifferentConfiguration(1)}
-            color="secondary"
+            color="primary"
+            onClick={() => console.log('stuff')}
           >
-            Next
+            Save Pairs
           </Button>
         </Box>
       }
