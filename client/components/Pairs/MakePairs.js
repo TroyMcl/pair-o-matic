@@ -79,13 +79,12 @@ const Roster = ({ student, selectedPairs }) => {
 
 const MakePairs = (props) => {
   const classes = useStyles();
-  const { cohort, roster } = useContext(CohortContext);
+  const { cohort, roster, selectedCohort } = useContext(CohortContext);
   const [selectedPairs, setSelectedPairs] = useState([]);
   const [pairsList, setPairsList] = useState([]);
   const [pairsListIndex, setPairsListIndex] = useState(0);
 
   const addPairDisplayComponent = () => {
-    console.log('stuff')
     setSelectedPairs([...selectedPairs, []])
   }
 
@@ -130,7 +129,7 @@ const MakePairs = (props) => {
 
   return (
     <Box>
-      <p>Roster</p>
+      <p>Roster for RPT {selectedCohort}</p>
       <Grid container>
         {roster.map(student => {
           return (

@@ -93,7 +93,7 @@ const Header = (props) => {
             variant="h1"
             className={classes.headerText}
           >
-            Section Title
+            Pair-O-Matic
           </Typography>
         </Box>
         <div className={classes.search}>
@@ -101,12 +101,14 @@ const Header = (props) => {
             <SearchIcon />
           </div>
           <InputBase
-            placeholder="Search…"
+            placeholder="Select Cohort..."
             classes={{
               root: classes.inputRoot,
               input: classes.inputInput,
             }}
-            inputProps={{ 'aria-label': 'search' }}
+            inputProps={{ 'aria-label': 'Select a Cohort' }}
+            onChange={(e) => console.log(e.target.value)}
+            onSubmit={(e) => console.log('submit', e.target.value)}
           />
         </div>
       </Toolbar>
