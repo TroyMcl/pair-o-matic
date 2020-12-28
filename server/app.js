@@ -4,13 +4,17 @@ const morgan = require('morgan');
 const path = require('path');
 const bodyParser = require('body-parser');
 const router = require('./router');
+const cookieParser = require('cookie-parser');
+const { verify } = require('./auth');
 
 app.use(morgan('dev'));
 app.use(express.static('public'));
 app.use(express.json());
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser());
 
-app.use('/api', router);
+app.use('/auth', router)
+app.use('/api', verify, verify, router);
 
 module.exports = app;
 
