@@ -14,7 +14,9 @@ import theme from './theme';
 import { CohortContextProvider } from './context/cohortContext';
 import MakePairs from './components/Pairs/MakePairs';
 import Header from './components/Header';
-import LandingPage from './components/LandingPage'
+import LandingPage from './components/LandingPage';
+import Login from './components/Login';
+import Signup from './components/Signup';
 
 const App = () => {
 
@@ -43,6 +45,16 @@ const App = () => {
                       path="/edit"
                       exact
                       render={(props) => <MakePairs {...props} />}
+                    />
+                    <Route
+                      path="/login"
+                      exact
+                      render={(props) => <Login {...props} />}
+                    />
+                    <Route
+                      path="/signup"
+                      exact
+                      render={(props) => <Signup {...props} />}
                     />
                   </Grid>
                   <Grid item xs={1} />
