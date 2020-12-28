@@ -19,7 +19,7 @@ const generateToken = (userName) => {
 }
 
 module.exports.login = async (req, res, next) => {
-  const { userName, email, password } = req.body;
+  const { userName, password } = req.body;
   try {
   const user = await findUserByUserName(userName);
   if (!user ) {
@@ -29,7 +29,7 @@ module.exports.login = async (req, res, next) => {
 
   if (authorized) {
     const token = generateToken(userName)
-    await updateUser({email, token})
+    await updateUser({email: user.email, token})
     console.log('you are logged in had have a JWT')
     res.cookie("bearer", token);
     res.status(200).send({
