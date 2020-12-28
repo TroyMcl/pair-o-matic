@@ -13,23 +13,21 @@ import {
 
 const useStyles = makeStyles(theme => ({
   container: {
-    height: 45,
-    background: '#dcc7aa',
+    fontSize: 12,
     paddingLeft: 10,
     display: 'flex',
     alignItems: 'center'
   },
   formSelector: {
-    margin: theme.spacing(1),
-    width: '35%'
+    marginTop: 5,
+    marginLeft: 10,
+    width: '35%',
+    padding: '10px, 5px',
   },
   deleteButton: {
     marginLeft: 15,
   }
 }))
-
-
-
 
 const PairDisplay = ({ index, addPairToSelectedPairs, removePair, pair }) => {
   const classes = useStyles();
@@ -66,7 +64,7 @@ const PairDisplay = ({ index, addPairToSelectedPairs, removePair, pair }) => {
 
   return (
     <div className={classes.container} >
-      <FormControl className={classes.formSelector}>
+      <FormControl className={classes.formSelector} variant="outlined" size="small">
         <Select
           value={studentOne}
           labelId="studentOne"
@@ -78,7 +76,7 @@ const PairDisplay = ({ index, addPairToSelectedPairs, removePair, pair }) => {
           })}
         </Select>
       </FormControl>
-      <FormControl className={classes.formSelector}>
+      <FormControl className={classes.formSelector} variant="outlined" size="small">
         <Select
           value={studentTwo}
           labelId="studentTwo"
