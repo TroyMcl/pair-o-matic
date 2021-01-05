@@ -17,6 +17,7 @@ import Header from './components/Header';
 import LandingPage from './components/LandingPage';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import CreateCohort from './components/cohort/CreateCohort';
 
 const App = () => {
 
@@ -55,6 +56,11 @@ const App = () => {
                       path="/signup"
                       exact
                       render={(props) => <Signup {...props} />}
+                    />
+                    <Route
+                      path="/create"
+                      exact
+                      render={(props) => <CreateCohort {...props} />}
                     />
                   </Grid>
                   <Grid item xs={1} />

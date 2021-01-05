@@ -78,12 +78,17 @@ const LandingPage = (props) => {
           </Button>
         </Link>
       </Box>
-      <Button
-        variant='contained'
-        color='primary'
+      <Link
+        to="/create"
+        className={classes.pairButtons}
       >
-        Create New Cohort
-      </Button>
+        <Button
+          variant='contained'
+          color='primary'
+        >
+          Create New Cohort
+        </Button>
+      </Link>
     </Box>
   )
 }
