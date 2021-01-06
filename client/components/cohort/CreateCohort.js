@@ -1,4 +1,5 @@
-import React, { useState, useContext} from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   makeStyles,
   TextField,
@@ -7,18 +8,19 @@ import {
   IconButton,
   Grid,
 } from '@material-ui/core';
+import axios from 'axios';
 import PreviousPairs from './PreviousPairs';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles(theme => ({
   buttonContainer: {
-    paddingBotton:15,
+    paddingBotton: 15,
     marginTop: 15,
     marginBottom: 25,
     display: 'flex',
     justifyContent: 'space-between'
   },
-  inputStyling : {
+  inputStyling: {
     marginRight: 10
   },
   studentButton: {
@@ -33,6 +35,7 @@ const useStyles = makeStyles(theme => ({
 
 const CreateCohort = (props) => {
   const classes = useStyles();
+  const history = useHistory();
 
   const [cohort, setCohort] = useState('');
   const [firstName, setFristName] = useState('');
@@ -59,7 +62,23 @@ const CreateCohort = (props) => {
     setStudentList([...studentList]);
   }
 
-  return(
+  const saveCohort = () => {
+    axios.patch(`/api/cohort/${cohort}`, studentList)
+      .then(res => {
+        setCohort('');
+        setFristName('');
+        setLastName('');
+        setStudentList([]);
+        setSelectedStudent('');
+        setViewPreviousPairs(false);
+        history.push('/');
+      })
+      .catch(err => {
+        console.log('Err adding Cohort', err)
+      })
+  }
+
+  return (
     <Box>
       <Box>
         <TextField
@@ -89,7 +108,7 @@ const CreateCohort = (props) => {
       <Button
         variant='contained'
         color='secondary'
-        disabled={firstName && lastName && cohort ? false: true}
+        disabled={firstName && lastName && cohort ? false : true}
         onClick={() => updateStudentList()}
       >
         Add
@@ -103,7 +122,7 @@ const CreateCohort = (props) => {
                 <Grid item
                   xs={6} sm={3}
                   key={student.name}
-                  >
+                >
                   <Button
                     onClick={() => {
                       setSelectedStudent(student.name)
@@ -124,29 +143,29 @@ const CreateCohort = (props) => {
               )
             })}
           </Grid>
-            <Box className={classes.buttonContainer}>
-              <Button
-                variant='contained'
-                color='secondary'
-                onClick={() => setViewPreviousPairs(true)}
-              >
-                Add Previous Pairs
+          <Box className={classes.buttonContainer}>
+            <Button
+              variant='contained'
+              color='secondary'
+              onClick={() => setViewPreviousPairs(true)}
+            >
+              Add Previous Pairs
               </Button>
-              <Button
-                variant='contained'
-                color='primary'
-                onClick={() => console.log('send')}
-              >
-                Save Cohort
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={() => saveCohort()}
+            >
+              Save Cohort
               </Button>
-            </Box>
+          </Box>
         </Box>
       }
       {viewPreviousPairs ? <PreviousPairs
-                            studentList={studentList}
-                            setStudentList={setStudentList}
-                            selectedStudent={selectedStudent}
-                          /> : ''}
+        studentList={studentList}
+        setStudentList={setStudentList}
+        selectedStudent={selectedStudent}
+      /> : ''}
     </Box>
   )
 }
