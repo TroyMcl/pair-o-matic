@@ -1,30 +1,51 @@
 import React, { useState, useContext} from 'react';
 import {
-  makeSytles,
+  makeStyles,
   TextField,
   Box,
-  Button
+  Button,
+  IconButton,
+  Grid,
 } from '@material-ui/core';
+import PreviousPairs from './PreviousPairs';
+import DeleteIcon from '@material-ui/icons/Delete';
+
+const useStyles = makeStyles(theme => ({
+  buttonContainer: {
+    paddingBotton:15,
+    marginTop: 15,
+    marginBottom: 25,
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  inputStyling : {
+    marginRight: 10
+  },
+  studentButton: {
+    borderRadius: 10,
+    backgroundColor: '#c0c2c4'
+  },
+  deleteStudentButton: {
+    marginLeft: 10
+  }
+}))
 
 
 const CreateCohort = (props) => {
+  const classes = useStyles();
+
   const [cohort, setCohort] = useState('');
   const [firstName, setFristName] = useState('');
   const [lastName, setLastName] = useState('');
+
   const [studentList, setStudentList] = useState([]);
-
-  const updateCohortNum = (val) => {
-    setCohort(val);
-  }
-
-  const updateStudent = (input, value) => {
-    input(value);
-  }
+  const [selectedStudent, setSelectedStudent] = useState('');
+  const [viewPreviousPairs, setViewPreviousPairs] = useState(false);
 
   const updateStudentList = () => {
     const newStudent = {
       name: `${firstName} ${lastName}`,
-      cohort: cohort,
+      cohort: Number(cohort),
       previousPairs: []
     }
     setStudentList([...studentList, newStudent]);
@@ -32,38 +53,100 @@ const CreateCohort = (props) => {
     setLastName('');
   }
 
+  const removeStudent = (student) => {
+    const studentIndex = studentList.findIndex(student => student.name === student);
+    studentList.splice(studentIndex, 1);
+    setStudentList([...studentList]);
+  }
+
   return(
     <Box>
       <Box>
         <TextField
-          id="Cohort"
-          label="cohort"
+          id='Cohort'
+          label='cohort'
           value={cohort}
           required
-          onChange={(e) => updateCohortNum(e.target.value)}
+          onChange={(e) => setCohort(e.target.value)}
         />
       </Box>
       <TextField
-        id="first-name"
-        label="First Name"
+        className={classes.inputStyling}
+        id='first-name'
+        label='First Name'
         value={firstName}
         required
-        onChange={(e) => updateStudent(setFristName, e.target.value)}
+        onChange={(e) => setFristName(e.target.value)}
       />
       <TextField
-        id="last-name"
-        label="Last Name"
+        className={classes.inputStyling}
+        id='last-name'
+        label='Last Name'
         value={lastName}
         required
-        onChange={(e) => updateStudent(setLastName, e.target.value)}
+        onChange={(e) => setLastName(e.target.value)}
       />
       <Button
+        variant='contained'
         color='secondary'
         disabled={firstName && lastName && cohort ? false: true}
         onClick={() => updateStudentList()}
       >
         Add
       </Button>
+      {studentList.length === 0 ? "" :
+        <Box>
+          <p>Roster For Cohort: {cohort}</p>
+          <Grid container>
+            {studentList.map(student => {
+              return (
+                <Grid item
+                  xs={6} sm={3}
+                  key={student.name}
+                  >
+                  <Button
+                    onClick={() => {
+                      setSelectedStudent(student.name)
+                      setViewPreviousPairs(true)
+                    }}
+                    variant='contained'
+                    size='small'
+                    className={classes.studentButton}
+                  >{student.name}</Button>
+                  <IconButton
+                    className={classes.deleteStudentButton}
+                    size='small'
+                    onClick={() => removeStudent(student.name)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Grid>
+              )
+            })}
+          </Grid>
+            <Box className={classes.buttonContainer}>
+              <Button
+                variant='contained'
+                color='secondary'
+                onClick={() => setViewPreviousPairs(true)}
+              >
+                Add Previous Pairs
+              </Button>
+              <Button
+                variant='contained'
+                color='primary'
+                onClick={() => console.log('send')}
+              >
+                Save Cohort
+              </Button>
+            </Box>
+        </Box>
+      }
+      {viewPreviousPairs ? <PreviousPairs
+                            studentList={studentList}
+                            setStudentList={setStudentList}
+                            selectedStudent={selectedStudent}
+                          /> : ''}
     </Box>
   )
 }
