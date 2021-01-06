@@ -9,7 +9,8 @@ import {
   Typography,
   Box,
   Button,
-  makeStyles
+  makeStyles,
+  TextField
 } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
@@ -79,7 +80,7 @@ const Roster = ({ student, selectedPairs }) => {
 
 const MakePairs = (props) => {
   const classes = useStyles();
-  const { cohort, roster, selectedCohort } = useContext(CohortContext);
+  const { cohort, roster, selectedCohort, setSelectedCohort, fetchRoster } = useContext(CohortContext);
   const [selectedPairs, setSelectedPairs] = useState([]);
   const [pairsList, setPairsList] = useState([]);
   const [pairsListIndex, setPairsListIndex] = useState(0);
@@ -104,7 +105,7 @@ const MakePairs = (props) => {
 
   const generatePairs = (cohortNum) => {
     const data = { data: selectedPairs };
-    axios.post(`api/pairomatic/${cohortNum}`, data)
+    axios.post(`/api/pairomatic/${cohortNum}`, data)
       .then(data => {
         console.log(data.data.message)
         setPairsList(data.data.message);
@@ -139,7 +140,20 @@ const MakePairs = (props) => {
   }
 
   if (cohort.length === 0) {
-    return <p>Select a Cohort</p>
+    return (
+      <Box>
+        <Typography>Please select a cohort:</Typography>
+        <TextField
+          variant='outlined'
+          value={selectedCohort}
+          onChange={(e) => setSelectedCohort(e.target.value)}
+        />
+        <Button
+          variant='contained'
+          onClick={() => fetchRoster(selectedCohort) }
+        >Get Roster</Button>
+      </Box>
+      )
   }
 
   return (
