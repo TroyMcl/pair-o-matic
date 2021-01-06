@@ -87,7 +87,7 @@ module.exports.retreiveCohort = async (req, res) => {
 
 module.exports.updateCohort = async (req, res) => {
   const cohort = req.body;
-
+  console.log('getting data',cohort)
   try {
     const cohortData = await insertStudents(cohort);
     if(cohortData.length === 0) {
@@ -135,7 +135,7 @@ module.exports.makePairs = async (req, res) => {
   try {
     const cohortData = await getCohortOfStudents(cohort);
     const madePairs = makeAllPairs(cohortData, premadePairs);
-    console.log('too slow?')
+    
     res.status(200).send({
       status: 'success',
       message: madePairs

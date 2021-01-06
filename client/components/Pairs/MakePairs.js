@@ -83,6 +83,7 @@ const MakePairs = (props) => {
   const [selectedPairs, setSelectedPairs] = useState([]);
   const [pairsList, setPairsList] = useState([]);
   const [pairsListIndex, setPairsListIndex] = useState(0);
+  const [confirmedPairs, setConfirmedPairs] = useState(0);
 
   const addPairDisplayComponent = () => {
     setSelectedPairs([...selectedPairs, []])
@@ -123,6 +124,20 @@ const MakePairs = (props) => {
     setSelectedPairs([...pairsList[nextView]])
   }
 
+  const savePairsToDatabase = () => {
+    axios.patch(`/api/cohort/${selectedCohort}`, cohort)
+    .then(res => {
+      console.log('it worked!!!',res.data)
+    })
+    .catch(err => {
+      console.log('nope, nope, nope error', err)
+    })
+  }
+
+  const trackConfirmedPairs = (int) => {
+    setConfirmedPairs(confirmedPairs + int);
+  }
+
   if (cohort.length === 0) {
     return <p>Select a Cohort</p>
   }
@@ -150,7 +165,7 @@ const MakePairs = (props) => {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => generatePairs(25)}
+          onClick={() => generatePairs(selectedCohort)}
         >
           Generate Pairs
         </Button>
@@ -162,6 +177,7 @@ const MakePairs = (props) => {
           index={i}
           removePair={removePair}
           addPairToSelectedPairs={addPairToSelectedPairs}
+          trackConfirmedPairs={trackConfirmedPairs}
         />)
       })}
       {pairsList.length === 0 ? '' :
@@ -190,7 +206,8 @@ const MakePairs = (props) => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => console.log('stuff')}
+            disabled={confirmedPairs === selectedPairs.length ? false : true}
+            onClick={() => savePairsToDatabase()}
           >
             Save Pairs
           </Button>

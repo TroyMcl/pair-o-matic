@@ -45,7 +45,7 @@ const filterUserInputPairs = (allStudents, prefPairs) => {
     const student2 = prefPairs[prefPairs.length - 1][1];
 
     // account for preferred solo student
-    if (student2 === undefined) {
+    if (!student2) {
       const soloIdx = allStudents.findIndex(student => student.name === student1);
       madePairs.push([allStudents[soloIdx], undefined]);
       allStudents.splice(soloIdx, 1);
