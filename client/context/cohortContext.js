@@ -9,7 +9,7 @@ export const CohortContextProvider = (props) => {
   const [selectedCohort, setSelectedCohort] = useState('');
 
   const fetchRoster = (cohortNum) => {
-    axios.get(`/api/cohort/${selectedCohort}`)
+    axios.get(`/api/cohort/${selectedCohort || cohortNum}`)
       .then(data => {
         setCohort(data.data.message);
         let cohort = data.data.message.map(student => student.name).sort()
