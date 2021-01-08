@@ -79,7 +79,7 @@ const CreateCohort = (props) => {
   }
 
   return (
-    <Box>
+    <Box style={{marginLeft: '240px'}}>
       <Box>
         <TextField
           id='Cohort'
