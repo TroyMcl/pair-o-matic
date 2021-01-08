@@ -12,12 +12,13 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './theme';
 
 import { CohortContextProvider } from './context/cohortContext';
-import MakePairs from './components/Pairs/MakePairs';
 import Header from './components/Header';
 import LandingPage from './components/LandingPage';
+import MakePairs from './components/Pairs/MakePairs';
+import EditStudents from './components/Edit/EditStudents';
+import CreateCohort from './components/cohort/CreateCohort';
 import Login from './components/Login';
 import Signup from './components/Signup';
-import CreateCohort from './components/cohort/CreateCohort';
 
 const App = () => {
 
@@ -45,7 +46,7 @@ const App = () => {
                     <Route
                       path="/edit"
                       exact
-                      render={(props) => <MakePairs {...props} />}
+                      render={(props) => <EditStudents {...props} />}
                     />
                     <Route
                       path="/login"

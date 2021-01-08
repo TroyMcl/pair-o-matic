@@ -14,6 +14,7 @@ app.use('/pairs', express.static('public'));
 app.use('/login', express.static('public'));
 app.use('/signup', express.static('public'));
 app.use('/create', express.static('public'));
+app.use('/edit', express.static('public'));
 
 
 app.use(express.json());
