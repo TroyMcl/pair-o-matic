@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { CohortContext } from '../../context/cohortContext';
 import PairDisplay from './PairDisplay';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CohortSelector from '../CohortSelector';
 import axios from 'axios';
 
 import {
@@ -140,24 +141,12 @@ const MakePairs = (props) => {
   }
 
   if (cohort.length === 0) {
-    return (
-      <Box>
-        <Typography>Please select a cohort:</Typography>
-        <TextField
-          variant='outlined'
-          value={selectedCohort}
-          onChange={(e) => setSelectedCohort(e.target.value)}
-        />
-        <Button
-          variant='contained'
-          onClick={() => fetchRoster(selectedCohort) }
-        >Get Roster</Button>
-      </Box>
-      )
+    return <CohortSelector />
   }
 
   return (
-    <Box>
+    <Box style={{marginLeft: '240px'}}>
+      <CohortSelector />
       <p>Roster for RPT {selectedCohort}</p>
       <Grid container>
         {roster.map(student => {
