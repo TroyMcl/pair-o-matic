@@ -1,16 +1,23 @@
 import React, { useEffect, useContext } from 'react';
 import { CohortContext } from '../context/cohortContext';
+import { Link } from 'react-router-dom';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import SearchIcon from '@material-ui/icons/Search';
+import PeopleIcon from '@material-ui/icons/People';
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import EditIcon from '@material-ui/icons/Edit';
 import {
   IconButton,
   makeStyles,
-  fade,
   AppBar,
   Toolbar,
   Typography,
-  InputBase,
-  Box
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Divider
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,58 +36,26 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
-    },
+  drawer: {
+    width: 240,
   },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  appbar: {
+    marginBottom: 20,
+    width: `Calc(100% - 240px)`,
+    marginLeft: 240
   },
-  inputRoot: {
-    color: 'inherit',
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
+  drawerContent: {
+    paddingTop: 70
+  }
 })
 )
 
 const Header = (props) => {
-  const { cohort, fetchRoster } = useContext(CohortContext);
+  const { cohort, fetchRoster, setSelectedCohort } = useContext(CohortContext);
   const classes = useStyles();
 
-  useEffect(() => {
-    fetchRoster(25);
-  }, [])
-
   return (
-    <AppBar position="static" style={{marginBottom: 20}}>
+    <AppBar position="static" className={classes.appbar}>
       <Toolbar className={classes.root}>
         <Box className={classes.leftContainer}>
           <IconButton
@@ -96,22 +71,46 @@ const Header = (props) => {
             Pair-O-Matic
           </Typography>
         </Box>
-        <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
-          </div>
-          <InputBase
-            placeholder="Select Cohort..."
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-            inputProps={{ 'aria-label': 'Select a Cohort' }}
-            onChange={(e) => console.log(e.target.value)}
-            onSubmit={(e) => console.log('submit', e.target.value)}
-          />
-        </div>
       </Toolbar>
+      <Drawer
+        className={classes.drawer}
+        anchor='left'
+        open={true}
+        variant='permanent'
+      >
+        <Box className={classes.drawerContent}>
+          <Divider />
+          <List>
+            <Link
+              to="/pairs"
+              style={{ textDecoration: 'none', color: 'black' }}
+            >
+              <ListItem >
+                <ListItemIcon>{<PeopleIcon />}</ListItemIcon>
+                <ListItemText primary={'Generate Pairs'} />
+              </ListItem>
+            </Link>
+            <Link
+              to="/edit"
+              style={{ textDecoration: 'none', color: 'black' }}
+            >
+              <ListItem >
+                <ListItemIcon>{<EditIcon />}</ListItemIcon>
+                <ListItemText primary={'Edit Student or Cohort'} />
+              </ListItem>
+            </Link>
+            <Link
+              to="/create"
+              style={{ textDecoration: 'none', color: 'black' }}
+            >
+              <ListItem >
+                <ListItemIcon>{<AddBoxIcon />}</ListItemIcon>
+                <ListItemText primary={'Create New Cohort'} />
+              </ListItem>
+            </Link>
+          </List>
+        </Box>
+      </Drawer>
     </AppBar>
   )
 }
