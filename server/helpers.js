@@ -36,7 +36,7 @@ E: all pairs have partnered previously, even distribution of pairings, odd numbe
 // filter out preselected pairs:
 // still needs to account for human error: one student in 2 pairs:
 const filterUserInputPairs = (allStudents, prefPairs) => {
-
+  console.log('input',prefPairs)
   const madePairs = [];
 
   while (prefPairs.length > 0) {
@@ -46,7 +46,8 @@ const filterUserInputPairs = (allStudents, prefPairs) => {
 
     // account for preferred solo student
     if (!student2) {
-      const soloIdx = allStudents.findIndex(student => student.name === student1);
+      const soloIdx = allStudents.findIndex(student => student.name === student1.name);
+      console.log(soloIdx, student1.name)
       madePairs.push([allStudents[soloIdx], undefined]);
       allStudents.splice(soloIdx, 1);
       prefPairs.pop();
@@ -70,6 +71,7 @@ const filterUserInputPairs = (allStudents, prefPairs) => {
     allStudents.splice(removeSecond, 1);
 
   }
+  console.log('output', madePairs)
   return [madePairs, allStudents];
 
 };
