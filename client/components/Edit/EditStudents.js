@@ -23,6 +23,10 @@ const useStyles = makeStyles(theme => ({
     marginTop: '15px',
     marginBottom: '15px',
     borderBottom: '1px solid lightgray'
+  },
+  addStudentButton: {
+    marginTop: 15,
+    marginBottom: 15
   }
 }))
 
@@ -33,17 +37,21 @@ const EditStudents = (props) => {
   const [selectedStudent, setSelectedStudent] = useState('');
 
   useEffect(() => {
-    if(roster.length > 0) {
+    if (roster.length > 0) {
       setRosterLoaded(true)
     }
-  },[roster])
+  }, [roster])
 
   const pickStudent = (studentName) => {
     const student = cohort.find(s => s.name === studentName);
     setSelectedStudent(student);
   }
 
-  if(roster.length === 0) {
+  const unselectStudent = () => {
+    setSelectedStudent('');
+  }
+
+  if (roster.length === 0) {
     return (
       <Box className={classes.root}>
         <CohortSelector />
@@ -68,9 +76,16 @@ const EditStudents = (props) => {
             </Grid>
           )
         })}
+        <Grid item xs={12} className={classes.addStudentButton}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => setSelectedStudent({ name: '', cohort: '', previousPairs: [] })}
+          >Add Student</Button>
+        </Grid>
       </Grid>
-      {!selectedStudent ? '':
-        <EditStudent selectedStudent={student} />
+      {!selectedStudent ? '' :
+        <EditStudent student={selectedStudent} unselectStudent={unselectStudent} />
       }
     </Box>
   )
