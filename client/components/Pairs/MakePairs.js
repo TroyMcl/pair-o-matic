@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { CohortContext } from '../../context/cohortContext';
 import PairDisplay from './PairDisplay';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -86,6 +86,13 @@ const MakePairs = (props) => {
   const [pairsList, setPairsList] = useState([]);
   const [pairsListIndex, setPairsListIndex] = useState(0);
   const [confirmedPairs, setConfirmedPairs] = useState(0);
+
+  useEffect(() => {
+    setSelectedPairs([]);
+    setPairsList([]);
+    setPairsListIndex(0);
+    setConfirmedPairs(0);
+  }, [cohort])
 
   const addPairDisplayComponent = () => {
     setSelectedPairs([...selectedPairs, []])
