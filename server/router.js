@@ -7,6 +7,7 @@ const {
   removeCohort,
   retreiveStudent,
   makePairs,
+  updateStudent
 } = require('./controllers.js');
 
 const { login, signup } = require('./auth')
@@ -17,6 +18,7 @@ router
   .route('/student')
   .get(retreiveStudent)
   .post(addStudent)
+  .patch(updateStudent)
   .delete(removeStudent);
 
 router
