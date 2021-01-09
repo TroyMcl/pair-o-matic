@@ -51,6 +51,8 @@ const PairDisplay = ({ index, addPairToSelectedPairs, removePair, pair, trackCon
     }
     if (pair[1]) {
       selectStudent(setStudentTwo, pair[1].name)
+    } else {
+      selectStudent(setStudentTwo, '')
     }
   }, [pair])
 
