@@ -128,12 +128,12 @@ const MakePairs = (props) => {
 
   const savePairsToDatabase = () => {
     axios.patch(`/api/cohort/${selectedCohort}`, cohort)
-    .then(res => {
-      console.log('it worked!!!',res.data)
-    })
-    .catch(err => {
-      console.log('nope, nope, nope error', err)
-    })
+      .then(res => {
+        console.log('it worked!!!', res.data)
+      })
+      .catch(err => {
+        console.log('nope, nope, nope error', err)
+      })
   }
 
   const trackConfirmedPairs = (int) => {
@@ -141,11 +141,15 @@ const MakePairs = (props) => {
   }
 
   if (cohort.length === 0) {
-    return <CohortSelector />
+    return (
+      <Box style={{marginLeft: '240px'}}>
+        <CohortSelector />
+      </Box>
+    )
   }
 
   return (
-    <Box style={{marginLeft: '240px'}}>
+    <Box style={{ marginLeft: '240px' }}>
       <CohortSelector />
       <p>Roster for RPT {selectedCohort}</p>
       <Grid container>
@@ -186,7 +190,7 @@ const MakePairs = (props) => {
       {pairsList.length === 0 ? '' :
         <Box className={classes.scrollPairsContainer}>
           <Box
-            style={{display: 'flex', marginBottom: '30px'}}
+            style={{ display: 'flex', marginBottom: '30px' }}
           >
             <Typography >Viewing Configuration {pairsListIndex + 1} of {pairsList.length}</Typography>
             <Button
